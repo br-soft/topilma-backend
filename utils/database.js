@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const DB_NAME = "node-todo";
+const DB_NAME = "topilma";
 const USER_NAME = "admin";
 const PASSWORD = "1234";
 
