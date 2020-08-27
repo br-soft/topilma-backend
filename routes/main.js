@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.send("test main page");
+  res.sendFile('../public/index.html');
 });
 
 
