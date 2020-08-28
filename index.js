@@ -21,7 +21,7 @@ app.use("/upload", uploadRoute);
 async function start() {
   try {
     // await sequelize.sync();
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
     app.listen(port, () =>
       console.log(`topilma.uz server started at port ${port}`)
     );
