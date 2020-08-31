@@ -2,21 +2,26 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const sequelize = require("./utils/database");
+const UserLost = require("./models/UserLost");
+const UserLostImage = require("./models/UserLostImage");
+
 
 const port = 3000;
 const mainRoute = require("./routes/main");
 const lostRoute = require("./routes/lost");
 const foundRoute = require("./routes/found");
-const uploadRoute = require("./routes/upload");
 
-app.use(express.static('public'));
+
+app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/", mainRoute);
 app.use("/lost", lostRoute);
 app.use("/found", foundRoute);
-app.use("/upload", uploadRoute);
+
+
+
 
 async function start() {
   try {

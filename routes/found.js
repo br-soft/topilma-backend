@@ -1,8 +1,12 @@
 const { Router } = require("express");
 const router = Router();
-const { userFound } = require("../models/topilma");
-const { userFoundImages } = require("../models/topilma");
+const db = require('../models/db');
 const upload = require("../utils/multer");
+
+router.get("/", async (req, res) => {
+  const result = await db.userFound.findAll({include: db.userFoundImage});
+  res.status(200).json({result});
+})
 
 router.post("/", async (req, res) => {
   upload(req, res, async (err) => {
@@ -20,7 +24,7 @@ router.post("/", async (req, res) => {
 async function userFoundCreateToDB(req, res) {
   try {
     //write to DB userLost info
-    const poster = await userFound.create({
+    const poster = await db.userFound.create({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       description: req.body.description,
@@ -29,7 +33,7 @@ async function userFoundCreateToDB(req, res) {
     });
     //write to DB userLost images
     req.files.forEach(async (element) => {
-      const img = await userFoundImages.create({
+      const img = await db.userFoundImage.create({
         url: element.path,
         found_id: poster.id,
       });
