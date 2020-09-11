@@ -2,8 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const sequelize = require("./utils/database");
-const UserLost = require("./models/UserLost");
-const UserLostImage = require("./models/UserLostImage");
 
 
 const port = 3000;
@@ -26,7 +24,7 @@ app.use("/found", foundRoute);
 async function start() {
   try {
     // await sequelize.sync();
-    await sequelize.sync();
+    await sequelize.sync({force: true});
     app.listen(port, () =>
       console.log(`topilma.uz server started at port ${port}`)
     );

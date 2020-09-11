@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../utils/database");
+const router = require("../routes/found");
 
 module.exports = sequelize.define("user_found", {
   id: {
@@ -20,6 +21,10 @@ module.exports = sequelize.define("user_found", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  pincode:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   description: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -27,5 +32,9 @@ module.exports = sequelize.define("user_found", {
   tel_number:{
     type: Sequelize.STRING,
     allowNull: false
-  }
+  },
+  // states: {
+  //   type:   Sequelize.ENUM,
+  //   values: ['active', 'pending', 'deleted']
+  // }
 });

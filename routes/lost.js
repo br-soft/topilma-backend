@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
+  console.log(db);
   upload(req, res, async (err) => {
     if (err) {
       console.log(err);
@@ -17,7 +18,7 @@ router.post("/", async (req, res) => {
         message: "error upload image",
       });
     } else {
-      userLostCreateToDB(req, res);
+     await userLostCreateToDB(req, res);
     }
   });
 });
@@ -31,6 +32,7 @@ async function userLostCreateToDB(req, res) {
       description: req.body.description,
       tel_number: req.body.tel_number,
       category_id: req.body.category_id,
+      pincode: req.body.pincode,
     });
     //write to DB userLost images
     req.files.forEach(async (element) => {

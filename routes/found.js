@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
         message: "error user found image write DB",
       });
     }else{
-      userFoundCreateToDB(req, res);
+      await userFoundCreateToDB(req, res);
     }
   });
 });
@@ -24,12 +24,14 @@ router.post("/", async (req, res) => {
 async function userFoundCreateToDB(req, res) {
   try {
     //write to DB userLost info
+    console.log(db);
     const poster = await db.userFound.create({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       description: req.body.description,
       tel_number: req.body.tel_number,
       category_id: req.body.category_id,
+      pincode: req.body.pincode,
     });
     //write to DB userLost images
     req.files.forEach(async (element) => {

@@ -9,14 +9,13 @@ UserLostImage.belongsTo(UserLost, { foreignKey: "id" });
 UserFound.hasMany(UserFoundImage, { foreignKey: "found_id" });
 UserFoundImage.belongsTo(UserFound, { foreignKey: "id" });
 
-const db = {
-  userFound: UserFound,
+ 
+  exports.userFound = UserFound;
 
-  userFoundImage: UserFoundImage,
+  exports.userFoundImage = UserFoundImage;
 
-  userLost: UserLost,
+  exports.userLost = UserLost;
 
-  userLostImage: UserLostImage,
-};
+  exports.userLostImage = UserLostImage;
 
-module.exports = db;
+

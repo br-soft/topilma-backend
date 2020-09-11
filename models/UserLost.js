@@ -20,6 +20,10 @@ module.exports = sequelize.define("user_lost", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  pincode:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   description: {
     type: Sequelize.STRING,
     allowNull: false,
