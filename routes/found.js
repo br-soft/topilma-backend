@@ -32,6 +32,7 @@ async function userFoundCreateToDB(req, res) {
       tel_number: req.body.tel_number,
       category_id: req.body.category_id,
       pincode: req.body.pincode,
+      states: req.body.states,
     });
     //write to DB userLost images
     req.files.forEach(async (element) => {

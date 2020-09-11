@@ -35,6 +35,7 @@ async function userLostCreateToDB(req, res) {
       pincode: req.body.pincode,
     });
     //write to DB userLost images
+    console.log(`size of files ${req.files.length}`);
     req.files.forEach(async (element) => {
       const img = await db.userLostImage.create({
         url: element.path,
