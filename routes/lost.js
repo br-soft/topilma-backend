@@ -1,13 +1,19 @@
 const { Router } = require("express");
 const router = Router();
-const db = require('../models/db');
+const db = require("../models/db");
 const upload = require("../utils/multer");
 
-
 router.get("/", async (req, res) => {
-  const result = await db.userLost.findAll({include: db.userLostImage});
-  res.status(200).json({result});
-})
+  let offset = req.body.offset;
+  let limit = req.body.limit;
+
+  const result = await db.userLost.findAndCountAll({  
+    limit: parseInt(limit),
+    offset: parseInt(offset),
+    include: db.userLostImage,
+  });
+  res.status(200).json({ result });
+});
 
 router.post("/", async (req, res) => {
   console.log(db);
@@ -18,7 +24,7 @@ router.post("/", async (req, res) => {
         message: "error upload image",
       });
     } else {
-     await userLostCreateToDB(req, res);
+      await userLostCreateToDB(req, res);
     }
   });
 });
@@ -42,7 +48,7 @@ async function userLostCreateToDB(req, res) {
         lost_id: poster.id,
       });
     });
-    res.status(201).json({ poster});
+    res.status(201).json({ poster });
   } catch (e) {
     console.log(e);
     res.status(500).json({

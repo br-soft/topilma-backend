@@ -4,7 +4,15 @@ const db = require('../models/db');
 const upload = require("../utils/multer");
 
 router.get("/", async (req, res) => {
-  const result = await db.userFound.findAll({include: db.userFoundImage});
+
+  let offset = req.body.offset;
+  let limit = req.body.limit;
+
+  const result = await db.userFound.findAll({
+    limit: parseInt(limit),
+    offset: parseInt(offset),
+    include: db.userFoundImage
+  });
   res.status(200).json({result});
 })
 
