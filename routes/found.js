@@ -1,8 +1,20 @@
 const { Router } = require("express");
 const router = Router();
-const { userFound } = require("../models/topilma");
-const { userFoundImages } = require("../models/topilma");
+const db = require('../models/db');
 const upload = require("../utils/multer");
+
+router.get("/", async (req, res) => {
+
+  let offset = req.body.offset;
+  let limit = req.body.limit;
+
+  const result = await db.userFound.findAll({
+    limit: parseInt(limit),
+    offset: parseInt(offset),
+    include: db.userFoundImage
+  });
+  res.status(200).json({result});
+})
 
 router.post("/", async (req, res) => {
   upload(req, res, async (err) => {
@@ -12,7 +24,7 @@ router.post("/", async (req, res) => {
         message: "error user found image write DB",
       });
     }else{
-      userFoundCreateToDB(req, res);
+      await userFoundCreateToDB(req, res);
     }
   });
 });
@@ -20,16 +32,19 @@ router.post("/", async (req, res) => {
 async function userFoundCreateToDB(req, res) {
   try {
     //write to DB userLost info
-    const poster = await userFound.create({
+    console.log(db);
+    const poster = await db.userFound.create({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       description: req.body.description,
       tel_number: req.body.tel_number,
       category_id: req.body.category_id,
+      pincode: req.body.pincode,
+      states: req.body.states,
     });
     //write to DB userLost images
     req.files.forEach(async (element) => {
-      const img = await userFoundImages.create({
+      const img = await db.userFoundImage.create({
         url: element.path,
         found_id: poster.id,
       });
