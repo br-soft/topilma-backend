@@ -33,7 +33,7 @@ module.exports = sequelize.define("user_found", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  states: {
+  status: {
     type:   Sequelize.ENUM,
     values: ['active', 'resolved', 'deleted', 'outdated']
   }

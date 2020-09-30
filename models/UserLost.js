@@ -31,5 +31,9 @@ module.exports = sequelize.define("user_lost", {
   tel_number:{
     type: Sequelize.STRING,
     allowNull: false
+  },
+  status: {
+    type:   Sequelize.ENUM,
+    values: ['active', 'resolved', 'deleted', 'outdated']
   }
 });

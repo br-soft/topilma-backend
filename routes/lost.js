@@ -2,17 +2,62 @@ const { Router } = require("express");
 const router = Router();
 const db = require("../models/db");
 const upload = require("../utils/multer");
+const fs = require("fs");
+const path = require("path");
 
 router.get("/", async (req, res) => {
-  let offset = req.body.offset;
-  let limit = req.body.limit;
+  let offset = req.query.offset;
+  let limit = req.query.limit;
 
-  const result = await db.userLost.findAndCountAll({  
+  const result = await db.userLost.findAndCountAll({
     limit: parseInt(limit),
     offset: parseInt(offset),
     include: db.userLostImage,
   });
   res.status(200).json({ result });
+});
+
+router.put("/:id", async (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        message: "error upload image",
+      });
+    } else {
+      await db.userLost.update(
+        {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          description: req.body.description,
+          tel_number: req.body.tel_number,
+          category_id: req.body.category_id,
+          pincode: req.body.pincode,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      );
+
+      const images = await db.userLostImage.findAll({
+        where: {
+          lost_id: req.params.id,
+        },
+      });
+
+      images.forEach((element) => {
+        try {
+          fs.unlinkSync(path.join(global.appRoot, element.url));
+          element.destroy();
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      
+
+      res.status(200).json(images);
+    }
+  });
 });
 
 router.post("/", async (req, res) => {

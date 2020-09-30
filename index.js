@@ -2,7 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const sequelize = require("./utils/database");
+const path = require('path');
 
+
+global.appRoot = path.resolve(__dirname);
 
 const port = 3000;
 const mainRoute = require("./routes/main");
